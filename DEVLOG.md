@@ -494,9 +494,245 @@ python run_inference.py \
 
 ---
 
-**Last Updated:** October 28, 2025
+## 2025-10-29 - VA Workstation Setup & MinGW Build Strategy
+
+### Objective
+Set up cloned repository on VA workstation for local development without admin rights, using MinGW toolchain instead of Visual Studio.
+
+### Environment
+- **Workstation:** VA laptop (Windows)
+- **User:** VHAWRJDRESCF
+- **Location:** `C:\Users\VHAWRJDRESCF\OneDrive - Department of Veterans Affairs\Documents\GitHub\VAbitnet_i2\`
+- **Restrictions:** Limited admin rights, cannot install Visual Studio Build Tools
+
+### Setup Process
+
+#### 1. Repository Clone
+**Actions Taken:**
+- Installed Git 2.51.1 via winget
+- Cloned repository: `git clone https://github.com/cyber3pxVA/VAbitnet_i2.git`
+- Repository cloned successfully with Git LFS (model file downloaded: 1.19 GB)
+- Initialized Git LFS: Model file `ggml-model-i2_s.gguf` present and verified
+
+**Git Configuration:**
+```bash
+git config user.name "VA Developer"
+git config user.email "developer@va.gov"
+```
+
+#### 2. Python Installation
+**Actions Taken:**
+- Installed Python 3.12.10 via winget
+- Created virtual environment at parent directory: `../.venv/`
+- Attempted to install inference libraries:
+  - ❌ `llama-cpp-python` - Failed (requires C++ compiler)
+  - ✅ `ctransformers` - Installed successfully
+
+**Discovery:** 
+- Standard GGUF loaders (llama-cpp-python, ctransformers) **CANNOT** load BitNet i2_s format
+- Error: "tensor 'blk.0.ffn_down.weight' number of elements is not a multiple of block size"
+- Reason: i2_s uses custom 1.58-bit quantization incompatible with standard GGUF loaders
+
+#### 3. Build Tool Investigation
+
+**Visual Studio Build Tools:**
+- ❌ CMake installation cancelled (likely admin restrictions)
+- ❌ Visual Studio Build Tools too large (~7GB) and requires admin rights
+- **Conclusion:** VS Build Tools not viable for VA workstation environment
+
+**MinGW Strategy (RECOMMENDED):**
+- ✅ Portable MinGW-w64 can be extracted without admin rights
+- ✅ CMake portable version available
+- ✅ Repository includes `build_silent.sh` script for MinGW builds
+- ✅ Script references portable tools in `tools/` directory
+
+**From `build_silent.sh`:**
+```bash
+export PATH="/c/Users/VHAWRJDRESCF/OneDrive - Department of Veterans Affairs/Documents/GitHub/VAbitnet/tools/mingw64/bin:..."
+cmake --build build_mingw --config Release -j 2
+```
+
+#### 4. Why BitNet Requires Custom Build
+
+**Technical Explanation:**
+- BitNet uses **1.58-bit ternary quantization** (weights are -1, 0, +1)
+- Standard llama.cpp doesn't support i2_s format natively
+- This repository includes custom llama.cpp fork with BitNet kernels
+- Custom kernels in: `preset_kernels/`, `src/`, `include/`
+- MUST build the BitNet-specific llama-cli.exe to run inference
+
+**Model Format Incompatibility:**
+```
+Standard GGUF: Uses 2/4/8-bit integer quantization (Q2_K, Q4_0, Q8_0, etc.)
+BitNet i2_s:   Uses 1.58-bit ternary quantization (custom format)
+Result:        Standard loaders cannot parse i2_s tensor layout
+```
+
+#### 5. Documentation Created
+
+**QUICKSTART.md:**
+- Comprehensive guide for next steps
+- Explains why standard Python libraries don't work
+- Documents MinGW vs Visual Studio options
+- Provides build commands and usage examples
+- Clear explanation of i2_s format requirements
+
+**run_inference.py:**
+- Created Python script using ctransformers (educational)
+- Script demonstrates loading attempt but fails with i2_s format
+- Kept for reference and future standard GGUF models
+- Error documented: proves i2_s requires custom loader
+
+### Next Steps (REQUIRED)
+
+#### Option 1: MinGW Build (Recommended for VA Workstation)
+
+**Prerequisites:**
+1. Download portable MinGW-w64 (no admin required)
+   - URL: https://github.com/niXman/mingw-builds-binaries/releases
+   - Extract to: `tools/mingw64/`
+
+2. Download portable CMake (no admin required)
+   - URL: https://cmake.org/download/ (ZIP archive)
+   - Extract to: `tools/cmake-3.30.0-windows-x86_64/`
+
+**Build Commands:**
+```bash
+# In Git Bash
+cd VAbitnet_i2
+export PATH="$PWD/tools/mingw64/bin:$PWD/tools/cmake-3.30.0-windows-x86_64/bin:$PATH"
+
+# Configure
+cmake -B build_mingw -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBITNET_X86_TL2=ON
+
+# Build
+cmake --build build_mingw --config Release -j 4
+
+# Test
+./build_mingw/bin/llama-cli.exe --version
+```
+
+**Or use the provided script:**
+```bash
+./build_silent.sh
+```
+
+#### Option 2: Use Pre-built Binaries (If Available)
+
+Check if binaries exist in:
+- `build/bin/llama-cli.exe`
+- `build_mingw/bin/llama-cli.exe`
+
+If present, can run immediately without building.
+
+### File Structure Created
+
+```
+VAbitnet_i2/
+├── VAbitnet_i2/                    (actual repo)
+│   ├── models/
+│   │   └── bitnet_b1_58-large/
+│   │       └── ggml-model-i2_s.gguf  (1.19 GB - verified)
+│   ├── run_inference.py            (created - for reference)
+│   ├── QUICKSTART.md               (created - setup guide)
+│   ├── build_silent.sh             (exists - MinGW build script)
+│   └── [rest of repo files]
+└── .venv/                          (Python virtual environment)
+    └── Scripts/
+        └── python.exe              (3.12.10)
+```
+
+### Technical Findings
+
+**BitNet i2_s Format Details:**
+- File size: 1.19 GB (1,187,801,280 bytes)
+- Model: Microsoft BitNet-b1.58-2B-4T (2.4B parameters)
+- Quantization: 1.58-bit ternary weights
+- Requires: BitNet-customized llama.cpp build
+- Incompatible with: All standard GGUF loaders
+
+**Why Standard Loaders Fail:**
+```
+Error: "tensor 'blk.0.ffn_down.weight' number of elements (17694720) 
+        is not a multiple of block size (1601400178)"
+
+Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
+       BitNet i2_s uses custom block layout for ternary quantization
+       Tensor packing algorithm differs from standard quantization
+```
+
+### Lessons Learned
+
+1. **VA Workstation Constraints:**
+   - Admin rights limit software installation
+   - Portable tools (MinGW, CMake) are essential
+   - Large installers (Visual Studio) not viable
+
+2. **BitNet Model Requirements:**
+   - Cannot use off-the-shelf inference libraries
+   - MUST build custom llama.cpp fork
+   - i2_s format is proprietary BitNet extension
+
+3. **Build Strategy:**
+   - MinGW-w64 is preferred for restricted environments
+   - Portable tool strategy enables no-admin-rights builds
+   - Git Bash provides Unix-like environment on Windows
+
+4. **Documentation Importance:**
+   - Clear error messages help understand format incompatibility
+   - Build scripts must document portable tool paths
+   - Setup guides must explain "why" not just "how"
+
+### Current Status
+
+✅ **Completed:**
+- [x] Repository cloned successfully
+- [x] Git configured for commits
+- [x] Python 3.12.10 installed
+- [x] Virtual environment created
+- [x] Model file verified (1.19 GB i2_s format)
+- [x] Build requirements documented
+- [x] QUICKSTART.md guide created
+- [x] Confirmed need for MinGW build
+- [x] Documented format incompatibility
+
+❌ **Blocked:**
+- [ ] Build tools not yet installed (MinGW, CMake)
+- [ ] llama-cli.exe not built
+- [ ] Cannot run inference until build complete
+
+📋 **Next Session:**
+1. Download portable MinGW-w64 to `tools/mingw64/`
+2. Download portable CMake to `tools/cmake-3.30.0-windows-x86_64/`
+3. Run `build_silent.sh` or manual cmake commands
+4. Test inference with compiled llama-cli.exe
+5. Document build success and inference results
+
+### Admin Rights Workarounds
+
+**What Works Without Admin:**
+- ✅ Portable MinGW-w64 (extract to user directory)
+- ✅ Portable CMake (extract to user directory)
+- ✅ Git Bash (if installed)
+- ✅ Python (winget install may prompt for admin, but can work)
+- ✅ Git LFS (bundled with Git)
+
+**What Requires Admin:**
+- ❌ Visual Studio Build Tools
+- ❌ System-wide PATH modifications
+- ❌ Installing CMake via installer (but portable works)
+
+**VA Deployment Strategy:**
+- Use portable tools exclusively
+- All paths relative to repository
+- No system modifications required
+- Can run entirely from OneDrive synced folder
+
+---
+
+**Last Updated:** October 29, 2025
 **Maintainer:** cyber3pxVA
-**Status:** i2_s Migration ✅ - Documentation Complete, Conversion Pending
+**Status:** Repository Cloned ✅ - MinGW Build Pending 🔄
 
 ---
 
