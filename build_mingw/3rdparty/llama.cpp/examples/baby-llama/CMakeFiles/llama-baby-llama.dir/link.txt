@@ -1,3 +1,0 @@
-"C:\Users\VHAWRJDRESCF\OneDrive - Department of Veterans Affairs\Documents\GitHub\VAbitnet\tools\cmake-3.30.0-windows-x86_64\bin\cmake.exe" -E rm -f CMakeFiles\llama-baby-llama.dir/objects.a
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc CMakeFiles\llama-baby-llama.dir/objects.a @CMakeFiles\llama-baby-llama.dir\objects1.rsp
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\C__~1.EXE -fopenmp -O3 -DNDEBUG -fopenmp -Wl,--whole-archive CMakeFiles\llama-baby-llama.dir/objects.a -Wl,--no-whole-archive -o ..\..\..\..\bin\llama-baby-llama.exe -Wl,--out-implib,libllama-baby-llama.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\llama-baby-llama.dir\linkLibs.rsp

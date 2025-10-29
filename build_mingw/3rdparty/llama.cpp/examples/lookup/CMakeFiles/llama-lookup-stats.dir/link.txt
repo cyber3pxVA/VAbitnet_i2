@@ -1,3 +1,0 @@
-"C:\Users\VHAWRJDRESCF\OneDrive - Department of Veterans Affairs\Documents\GitHub\VAbitnet\tools\cmake-3.30.0-windows-x86_64\bin\cmake.exe" -E rm -f CMakeFiles\llama-lookup-stats.dir/objects.a
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc CMakeFiles\llama-lookup-stats.dir/objects.a @CMakeFiles\llama-lookup-stats.dir\objects1.rsp
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\C__~1.EXE -fopenmp -O3 -DNDEBUG -fopenmp -Wl,--whole-archive CMakeFiles\llama-lookup-stats.dir/objects.a -Wl,--no-whole-archive -o ..\..\..\..\bin\llama-lookup-stats.exe -Wl,--out-implib,libllama-lookup-stats.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\llama-lookup-stats.dir\linkLibs.rsp

@@ -1,2 +1,0 @@
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc libllama.a CMakeFiles/llama.dir/llama.cpp.obj "CMakeFiles/llama.dir/llama-vocab.cpp.obj" "CMakeFiles/llama.dir/llama-grammar.cpp.obj" "CMakeFiles/llama.dir/llama-sampling.cpp.obj" CMakeFiles/llama.dir/unicode.cpp.obj "CMakeFiles/llama.dir/unicode-data.cpp.obj"
-C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ranlib.exe libllama.a
