@@ -1,0 +1,2 @@
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc libllava_static.a CMakeFiles/llava.dir/llava.cpp.obj CMakeFiles/llava.dir/clip.cpp.obj
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ranlib.exe libllava_static.a

@@ -1,0 +1,2 @@
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc libggml.a CMakeFiles/ggml.dir/ggml.c.obj "CMakeFiles/ggml.dir/ggml-alloc.c.obj" "CMakeFiles/ggml.dir/ggml-backend.cpp.obj" "CMakeFiles/ggml.dir/ggml-quants.c.obj" "CMakeFiles/ggml.dir/__/__/__/__/src/ggml-bitnet-mad.cpp.obj" "CMakeFiles/ggml.dir/__/__/__/__/src/ggml-bitnet-lut.cpp.obj" CMakeFiles/ggml.dir/llamafile/sgemm.cpp.obj "CMakeFiles/ggml.dir/ggml-aarch64.c.obj"
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ranlib.exe libggml.a

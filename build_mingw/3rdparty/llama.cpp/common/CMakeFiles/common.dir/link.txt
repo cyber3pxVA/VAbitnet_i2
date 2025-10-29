@@ -1,0 +1,2 @@
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ar.exe qc libcommon.a CMakeFiles/common.dir/arg.cpp.obj CMakeFiles/common.dir/common.cpp.obj CMakeFiles/common.dir/console.cpp.obj "CMakeFiles/common.dir/json-schema-to-grammar.cpp.obj" CMakeFiles/common.dir/log.cpp.obj "CMakeFiles/common.dir/ngram-cache.cpp.obj" CMakeFiles/common.dir/sampling.cpp.obj CMakeFiles/common.dir/train.cpp.obj "CMakeFiles/build_info.dir/build-info.cpp.obj"
+C:\Users\VHAWRJ~1\ONEDRI~1\DOCUME~1\GitHub\VAbitnet\tools\mingw64\bin\ranlib.exe libcommon.a
