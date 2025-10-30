@@ -142,5 +142,5 @@ Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "  1. Run: .\build_mingw.ps1" -ForegroundColor Cyan
 Write-Host "  2. Wait 5-10 minutes for build" -ForegroundColor Cyan
-Write-Host "  3. Test: .\build_mingw\bin\llama-cli.exe --version" -ForegroundColor Cyan
+Write-Host "  3. Test inference with the model" -ForegroundColor Cyan
 Write-Host ""
