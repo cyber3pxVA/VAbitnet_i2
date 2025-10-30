@@ -1,14 +1,15 @@
 # VABitNet - Proof of Concept for VA Workstation
 
-> **⚠️ PROOF OF CONCEPT**: This is a demonstration deployment of BitNet 1.58-bit LLM running on a VA workstation without admin rights. The included model (2.4B parameters) demonstrates the infrastructure for offline local AI deployment.
+> **⚠️ PROOF OF CONCEPT**: This is a demonstration deployment of BitNet 1.58-bit LLM running on a VA workstation using VHA-compliant portable tools. The included model (2.4B parameters) demonstrates the infrastructure for offline local AI deployment.
 
 ## What This Is
 
-This repository shows that **AI language models can run locally on VA laptops** without:
-- Cloud services or internet access (no HuggingFace dependency after initial clone)
-- Special permissions or admin rights
-- GPU or specialized hardware
-- Violating VA security policies
+This repository shows that **AI language models can run locally on VA laptops** using:
+- VHA-compliant portable toolchain (MinGW, CMake)
+- Standard VHA workstation environment
+- Offline operation (no cloud services after initial clone)
+- CPU-only inference (no GPU required)
+- Self-contained deployment approach
 
 **Current Status**: ✅ Working inference with 2.4B parameter BitNet model on VA workstation
 
@@ -25,6 +26,7 @@ This repository shows that **AI language models can run locally on VA laptops** 
 
 ## Quick Links
 
+- **VHA Workstation Setup**: [VA_WORKSTATION_SETUP.md](./VA_WORKSTATION_SETUP.md) - **CRITICAL**: VHA-compliant installation pathway and approved tooling
 - **Installation Guide**: [INSTALL_VA_WORKSTATION.md](./INSTALL_VA_WORKSTATION.md) - Step-by-step setup for VA laptops
 - **Original BitNet Project**: See below for upstream documentation
 - **Development Log**: [DEVLOG.md](./DEVLOG.md) - Build history and lessons learned

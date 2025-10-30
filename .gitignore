@@ -48,3 +48,7 @@ build/
 build_*/
 tools/
 logs/
+# CRITICAL DOCUMENTATION - DO NOT IGNORE
+# These files contain institutional knowledge for VA deployment
+!VA_WORKSTATION_SETUP.md
+!INSTALL_VA_WORKSTATION.md
