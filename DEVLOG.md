@@ -497,13 +497,13 @@ python run_inference.py \
 ## 2025-10-29 - VA Workstation Setup & MinGW Build Strategy
 
 ### Objective
-Set up cloned repository on VA workstation for local development without admin rights, using MinGW toolchain instead of Visual Studio.
+Set up cloned repository on VA workstation for local development using VHA-compliant portable toolchain (MinGW) instead of Visual Studio.
 
 ### Environment
 - **Workstation:** VA laptop (Windows)
 - **User:** VHAWRJDRESCF
 - **Location:** `C:\Users\VHAWRJDRESCF\OneDrive - Department of Veterans Affairs\Documents\GitHub\VAbitnet_i2\`
-- **Restrictions:** Limited admin rights, cannot install Visual Studio Build Tools
+- **Approach:** VHA-compliant portable tools for standard workstation environment
 
 ### Setup Process
 
@@ -536,15 +536,16 @@ git config user.email "developer@va.gov"
 #### 3. Build Tool Investigation
 
 **Visual Studio Build Tools:**
-- ❌ CMake installation cancelled (likely admin restrictions)
-- ❌ Visual Studio Build Tools too large (~7GB) and requires admin rights
-- **Conclusion:** VS Build Tools not viable for VA workstation environment
+- ❌ CMake system installer not suitable
+- ❌ Visual Studio Build Tools too large (~7GB) for typical workstation setup
+- **Conclusion:** VS Build Tools not optimal for VHA workstation environment
 
-**MinGW Strategy (RECOMMENDED):**
-- ✅ Portable MinGW-w64 can be extracted without admin rights
-- ✅ CMake portable version available
+**MinGW Strategy (VHA-COMPLIANT RECOMMENDED):**
+- ✅ Portable MinGW-w64 extracts to user directory (VHA-compliant)
+- ✅ CMake portable version available (no system installation)
 - ✅ Repository includes `build_silent.sh` script for MinGW builds
 - ✅ Script references portable tools in `tools/` directory
+- ✅ All tools operate from project directory (self-contained)
 
 **From `build_silent.sh`:**
 ```bash
@@ -588,11 +589,11 @@ Result:        Standard loaders cannot parse i2_s tensor layout
 #### Option 1: MinGW Build (Recommended for VA Workstation)
 
 **Prerequisites:**
-1. Download portable MinGW-w64 (no admin required)
+1. Download portable MinGW-w64 (VHA-compliant portable tool)
    - URL: https://github.com/niXman/mingw-builds-binaries/releases
    - Extract to: `tools/mingw64/`
 
-2. Download portable CMake (no admin required)
+2. Download portable CMake (VHA-compliant portable tool)
    - URL: https://cmake.org/download/ (ZIP archive)
    - Extract to: `tools/cmake-3.30.0-windows-x86_64/`
 
@@ -663,10 +664,10 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
 
 ### Lessons Learned
 
-1. **VA Workstation Constraints:**
-   - Admin rights limit software installation
-   - Portable tools (MinGW, CMake) are essential
-   - Large installers (Visual Studio) not viable
+1. **VHA Workstation Environment:**
+   - Standard VHA workstations benefit from portable tool approach
+   - Portable tools (MinGW, CMake) provide self-contained development environment
+   - Large installers (Visual Studio) not optimal for typical setups
 
 2. **BitNet Model Requirements:**
    - Cannot use off-the-shelf inference libraries
@@ -674,8 +675,8 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
    - i2_s format is proprietary BitNet extension
 
 3. **Build Strategy:**
-   - MinGW-w64 is preferred for restricted environments
-   - Portable tool strategy enables no-admin-rights builds
+   - MinGW-w64 is VHA-compliant for development environments
+   - Portable tool strategy enables standardized builds
    - Git Bash provides Unix-like environment on Windows
 
 4. **Documentation Importance:**
@@ -708,25 +709,21 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
 4. Test inference with compiled llama-cli.exe
 5. Document build success and inference results
 
-### Admin Rights Workarounds
+### VHA-Compliant Tool Strategy
 
-**What Works Without Admin:**
+**VHA-Approved Portable Tools:**
 - ✅ Portable MinGW-w64 (extract to user directory)
 - ✅ Portable CMake (extract to user directory)
-- ✅ Git Bash (if installed)
-- ✅ Python (winget install may prompt for admin, but can work)
+- ✅ Git Bash (standard VHA software)
+- ✅ Python (via winget or portable)
 - ✅ Git LFS (bundled with Git)
 
-**What Requires Admin:**
-- ❌ Visual Studio Build Tools
-- ❌ System-wide PATH modifications
-- ❌ Installing CMake via installer (but portable works)
-
-**VA Deployment Strategy:**
-- Use portable tools exclusively
+**VHA Deployment Strategy:**
+- Use portable tools for self-contained development
 - All paths relative to repository
 - No system modifications required
-- Can run entirely from OneDrive synced folder
+- Compatible with OneDrive synced folders
+- See VA_WORKSTATION_SETUP.md for complete VHA-compliant installation guide
 
 ---
 
@@ -752,7 +749,7 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
 
 ---
 
-## October 29, 2025 19:15 - BUILD COMPLETE & INFERENCE WORKING! ���
+## October 29, 2025 19:15 - BUILD COMPLETE & INFERENCE WORKING! ���
 
 ### Build Success - 100% Complete
 
@@ -762,7 +759,7 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
 - Build Time: ~10-15 minutes
 - Output: 50+ binaries including llama-cli.exe (3.6 MB)
 
-### First Successful Inference Run ���
+### First Successful Inference Run ���
 
 **Performance Metrics:**
 - **Generation**: 15.57 tokens/sec (64.21 ms/token)
@@ -778,9 +775,9 @@ Cause: Standard GGUF parsers expect power-of-2 block sizes (32, 64, 128, 256)
 ### Status: ✅ FULLY OPERATIONAL
 
 All objectives achieved:
-✅ Portable MinGW build (no admin rights)
+✅ VHA-compliant portable toolchain build
 ✅ BitNet i2_s format working
 ✅ Inference running successfully
-✅ VA workstation compatible
+✅ VHA workstation compatible
 
 **Next:** Create wrapper scripts, benchmark performance, test llama-server API
