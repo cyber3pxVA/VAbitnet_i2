@@ -1,7 +1,8 @@
 #!/bin/bash
 # Silent build script for BitNet with MinGW
 
-export PATH="/c/Users/VHAWRJDRESCF/OneDrive - Department of Veterans Affairs/Documents/GitHub/VAbitnet/tools/mingw64/bin:/c/Users/VHAWRJDRESCF/OneDrive - Department of Veterans Affairs/Documents/GitHub/VAbitnet/tools/cmake-3.30.0-windows-x86_64/bin:$PATH"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="${SCRIPT_DIR}/VAbitnet_i2/tools/mingw64/bin:${SCRIPT_DIR}/VAbitnet_i2/tools/cmake-3.30.5-windows-x86_64/bin:$PATH"
 
 echo "Starting BitNet build... This will take 5-10 minutes."
 echo "Building quietly to avoid terminal issues..."
@@ -21,4 +22,5 @@ else
     echo "✗ Build failed. Check build_output.log for details"
     echo "Last 30 lines of build log:"
     tail -30 build_output.log
+    exit 1
 fi

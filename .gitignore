@@ -52,3 +52,6 @@ logs/
 # These files contain institutional knowledge for VA deployment
 !VA_WORKSTATION_SETUP.md
 !INSTALL_VA_WORKSTATION.md
+*.7z
+*.zip
+VAbitnet_i2/
